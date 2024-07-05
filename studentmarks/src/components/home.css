@@ -1,0 +1,72 @@
+/* Base Styles */
+.Home {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-direction: column; /* Align items in a column */
+  
+  background-size: cover;
+  background-position: center;
+  height: 100vh;
+  color: white;
+  font-size: large;
+}
+
+.Home h1 {
+  color: white !important;
+  font-size: 60px !important;
+}
+
+.buttons {
+  margin-top: 20px !important;
+}
+
+.buttons button {
+  padding: 10px 20px !important;
+  margin: 10px !important;
+  background-color: #007bff !important; /* Initial blue background color */
+  color: white !important; /* White text */
+  border: none !important;
+  cursor: pointer !important;
+}
+
+.buttons button:hover {
+  background-color: #0056b3 !important; /* Dark blue background on hover */
+}
+
+/* Media Queries for Responsive Design */
+@media (max-width: 768px) {
+  .Home {
+    padding: 20px !important; /* Add padding for smaller screens */
+  }
+
+  .Home h1 {
+    font-size: 40px !important; /* Adjust font size for smaller screens */
+  }
+
+  .buttons button {
+    padding: 8px 16px !important; /* Adjust button padding for smaller screens */
+    font-size: 14px !important; /* Adjust button font size for smaller screens */
+  }
+}
+
+@media (max-width: 480px) {
+  .Home {
+    padding: 10px !important; /* Add padding for smaller screens */
+  }
+
+  .Home h1 {
+    font-size: 30px !important; /* Adjust font size for smaller screens */
+  }
+
+  .buttons {
+    flex-direction: column !important; /* Stack buttons vertically on very small screens */
+  }
+
+  .buttons button {
+    width: 100% !important; /* Make buttons full-width on very small screens */
+    margin: 5px 0 !important; /* Adjust margin for full-width buttons */
+    padding: 6px 12px !important; /* Adjust button padding for smaller screens */
+    font-size: 12px !important; /* Adjust button font size for smaller screens */
+  }
+}

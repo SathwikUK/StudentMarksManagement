@@ -1,0 +1,326 @@
+
+/* Add margin between Edit and Delete buttons */
+.edit-button,
+.delete-button {
+  margin-right: 10px; /* Add margin to space them out */
+}
+
+/* Make the Back Home button fixed at the bottom left */
+.back-home-button {
+  position: relative;
+  bottom: 10px;
+  left: 10px;
+  padding: 12px 24px;
+  font-size: 16px;
+  background-color: #007bff;
+  color: #ffffff;
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
+  transition: background-color 0.3s ease, transform 0.3s ease;
+}
+
+.back-home-button:hover {
+  background-color: #0056b3;
+  transform: translateY(-2px);
+}
+
+/* Global Styles */
+* {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+body {
+  font-family: Arial, sans-serif;
+  line-height: 1.6;
+  color: #333;
+  background-color: #f9f9f9;
+}
+
+h1, h2, h3, h4, h5, h6 {
+  font-weight: bold;
+  color: #333;
+  margin-bottom: 10px;
+}
+
+p {
+  margin-bottom: 20px;
+}
+
+/* Container and Layout */
+.StudentDataDisplay {
+  max-width: 800px;
+  min-height: 600px;  /* Set minimum height */
+  margin: 20px auto;
+  padding: 20px;
+  box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+  border-radius: 8px;
+  background-color: #f8f9fa;
+  transition: box-shadow 0.3s ease, background-color 0.3s ease;
+  transform-style: preserve-3d;
+  position: relative; /* Make it relative to position the Back Home button */
+}
+
+.StudentDataDisplay:hover {
+  box-shadow: 0 8px 16px rgba(0, 0, 0, 0.2);
+  background-color: #ffffff;
+}
+
+.delete-message {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin-top: 20px;
+  color: green;
+  font-size: 18px;
+}
+
+.delete-message span {
+  font-size: 24px;
+  margin-right: 10px;
+}
+
+.card-container {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+  gap: 20px;
+}
+
+.card {
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  padding: 20px;
+  border: 1px solid #ced4da;
+  border-radius: 8px;
+  background-color: #ffffff;
+  transition: box-shadow 0.3s ease, background-color 0.3s ease, border-color 0.3s ease;
+}
+
+.card:hover {
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+  transform: translateY(-2px);
+  border-color: #007bff;
+}
+
+.left-side {
+  flex: 1;
+}
+
+.left-side h2 {
+  font-size: 20px;
+  margin-bottom: 10px;
+  color: #343a40;
+}
+
+.left-side p {
+  margin-bottom: 5px;
+  color: #555555;
+}
+
+.marks-table {
+  margin-top: 10px;
+}
+
+.marks-table table {
+  width: 100%;
+  border-collapse: collapse;
+}
+
+.marks-table th,
+.marks-table td {
+  border: 1px solid #ddd;
+  padding: 8px;
+}
+
+.marks-table th {
+  background-color: #f2f2f2;
+  text-align: left;
+}
+
+.marks-table td {
+  text-align: left;
+}
+
+button {
+  padding: 12px 24px;
+  font-size: 16px;
+  background-color: #007bff;
+  color: #ffffff;
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
+  margin-top: 20px;
+  transition: background-color 0.3s ease, transform 0.3s ease;
+}
+
+button:hover {
+  background-color: #0056b3;
+  transform: translateY(-2px);
+}
+
+/* Action Buttons */
+.action-buttons {
+  display: flex;
+  justify-content: flex-start;
+  margin-top: 10px;
+}
+
+.edit-button,
+.delete-button {
+  padding: 8px 16px;
+  font-size: 14px;
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
+  transition: background-color 0.3s ease, transform 0.3s ease;
+}
+
+.edit-button {
+  background-color: #28a745;
+  color: white;
+}
+
+.edit-button:hover {
+  background-color: #218838;
+  transform: translateY(-2px);
+}
+
+.delete-button {
+  background-color: #dc3545;
+  color: white;
+}
+
+.delete-button:hover {
+  background-color: #c82333;
+  transform: translateY(-2px);
+}
+
+/* Popup Container */
+.popup-container {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background-color: rgba(0, 0, 0, 0.5);
+  z-index: 9999;
+  opacity: 0;
+  
+  visibility: hidden;
+  transition: opacity 0.3s ease, visibility 0.3s ease;
+}
+
+.show-popup {
+  opacity: 1;
+  visibility: visible;
+}
+
+.popup {
+  background-color: rgb(12, 12, 12);
+  padding: 20px;
+  border-radius: 8px;
+  box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+  text-align: center;
+  max-width: 600px;
+  width: 100%;
+  color:white;
+  max-height: 80vh; /* Set max height for the popup */
+  overflow-y: auto; /* Make the content inside scrollable */
+}
+
+.popup h2 {
+  margin-bottom: 20px;
+  font-size: 20px;
+  color:red;
+}
+
+.popup button {
+  padding: 10px 20px;
+  font-size: 16px;
+  margin: 10px;
+}
+
+.cancel-button {
+  background-color: #6c757d;
+  color: white;
+}
+
+.cancel-button:hover {
+  background-color: #5a6268;
+  transform: translateY(-2px);
+}
+
+/* Search Container */
+.search-container {
+  display: flex;
+  align-items: center;
+  margin-bottom: 20px;
+}
+
+.search-bar {
+  flex: 1;
+  padding: 10px;
+  border: 1px solid #ced4da;
+  border-radius: 4px;
+  margin-right: 10px;
+}
+
+.search-button {
+  padding: 10px 20px;
+  font-size: 16px;
+  background-color: #007bff;
+  color: white;
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
+  margin-top: 3px;
+  transition: background-color 0.3s ease, transform 0.3s ease;
+}
+
+.search-button:hover {
+  background-color: #0056b3;
+  transform: translateY(-2px);
+}
+
+/* Marks input styling */
+.marks-input {
+  display: flex;
+  justify-content: space-between;
+  margin-top: 10px;
+}
+
+.marks-input label {
+  display: flex;
+  flex-direction: column;
+  margin-right: 10px;
+  flex-grow: 1;
+}
+
+.marks-input input {
+  padding: 5px;
+  border: 1px solid #ddd;
+  border-radius: 4px;
+}
+
+/* Styles for delete message */
+.delete-message {
+  background-color: #dff0d8;
+  color: #3c763d;
+  padding: 10px;
+  border: 1px solid #d6e9c6;
+  border-radius: 4px;
+  display: flex;
+  align-items: center;
+  margin-top: 10px;
+}
+
+.delete-message span {
+  font-size: 20px;
+  margin-right: 5px;
+}
