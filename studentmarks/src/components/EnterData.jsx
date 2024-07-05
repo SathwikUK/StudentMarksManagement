@@ -16,6 +16,7 @@ function EnterData() {
   const [popupMessage, setPopupMessage] = useState('');
   const [popupColor, setPopupColor] = useState('');
   const [errors, setErrors] = useState({});
+  const [showFieldErrors, setShowFieldErrors] = useState(false);
 
   const branches = ["CSE", "ECE", "EEE", "ME", "CE"];
 
@@ -32,10 +33,15 @@ function EnterData() {
     }
     if (subjects.length < 6) {
       newErrors.subjects = 'At least 6 subjects are required.';
-    }
-    const studentMarks = subjects.map(subject => ({ subject, marks: marks[subject] || 0 }));
-    if (!studentMarks.every(mark => mark.marks >= 0 && mark.marks <= 100)) {
-      newErrors.marks = 'Marks must be between 0 and 100.';
+    } else {
+      subjects.forEach((subject, index) => {
+        if (!subject) {
+          newErrors[`subject_${index}`] = 'This field is required.';
+        }
+        if (!marks[subject] && marks[subject] !== 0) {
+          newErrors[`marks_${index}`] = 'This field is required.';
+        }
+      });
     }
     setErrors(newErrors);
     return newErrors;
@@ -43,7 +49,7 @@ function EnterData() {
 
   const checkDuplicateRollNo = async (rollNo) => {
     try {
-      const response = await axios.get(`http://localhost:4000/students/checkduplicate/${rollNo}`);
+      const response = await axios.get(`https://student-marks-management-three.vercel.app/students/checkduplicate/${rollNo}`);
       return response.data.exists;
     } catch (error) {
       console.error('Error checking duplicate roll number:', error);
@@ -68,7 +74,7 @@ function EnterData() {
           setPopupColor('');
         }, 3000);
       } else {
-        axios.post('http://localhost:4000/students', {
+        axios.post('https://student-marks-management-three.vercel.app/students', {
           name: studentName,
           rollNo,
           branch,
@@ -98,6 +104,11 @@ function EnterData() {
           }, 3000);
         });
       }
+    } else {
+      setShowFieldErrors(true);
+      setTimeout(() => {
+        setShowFieldErrors(false);
+      }, 2000);
     }
   };
 
@@ -109,6 +120,7 @@ function EnterData() {
     setSubjects([]);
     setNewSubject('');
     setErrors({});
+    setShowFieldErrors(false);
   };
 
   const handleFieldChange = (setter, field, value) => {
@@ -176,7 +188,7 @@ function EnterData() {
               onChange={(event) => handleFieldChange(setStudentName, 'studentName', event.target.value)}
               required
             />
-            {errors.studentName && (<p style={{ color: 'red' }}>{errors.studentName}</p>)}
+            {showFieldErrors && errors.studentName && (<p style={{ color: 'red' }}>{errors.studentName}</p>)}
           </label>
           <br />
           <label>
@@ -187,7 +199,7 @@ function EnterData() {
               onChange={(event) => handleFieldChange(setRollNo, 'rollNo', event.target.value)}
               required
             />
-            {errors.rollNo && (<p style={{ color: 'red' }}>{errors.rollNo}</p>)}
+            {showFieldErrors && errors.rollNo && (<p style={{ color: 'red' }}>{errors.rollNo}</p>)}
           </label>
           <br />
           <label>
@@ -202,7 +214,7 @@ function EnterData() {
                 <option key={branch} value={branch}>{branch}</option>
               ))}
             </select>
-            {errors.branch && (<p style={{ color: 'red' }}>{errors.branch}</p>)}
+            {showFieldErrors && errors.branch && (<p style={{ color: 'red' }}>{errors.branch}</p>)}
           </label>
           <br />
           <button type="submit">Submit</button>
@@ -221,7 +233,7 @@ function EnterData() {
                   onChange={(event) => handleInputChange(event, subject)}
                   required
                 />
-                {errors.marks && (<p style={{ color: 'red' }}>{errors.marks}</p>)}
+                {showFieldErrors && errors[`marks_${index}`] && (<p style={{ color: 'red' }}>{errors[`marks_${index}`]}</p>)}
               </label>
               <button type="button" className="delete-button" onClick={() => handleDeleteSubject(subject)}>
                 <i className="fas fa-trash"></i>
@@ -239,12 +251,12 @@ function EnterData() {
                 onChange={(event) => handleFieldChange(setNewSubject, 'newSubject', event.target.value)}
                 required
               />
-              {errors.newSubject && (<p style={{ color: 'red' }}>{errors.newSubject}</p>)}
+              {showFieldErrors && errors.newSubject && (<p style={{ color: 'red' }}>{errors.newSubject}</p>)}
             </label>
             <button type="button" onClick={handleAddSubject}>Add Subject</button>
           </div>
         )}
-        {errors.subjects && (<p style={{ color: 'red' }}>{errors.subjects}</p>)}
+        {showFieldErrors && errors.subjects && (<p style={{ color: 'red' }}>{errors.subjects}</p>)}
       </div>
       <Link to="/">
         <button className="back-button">Back to Home</button>

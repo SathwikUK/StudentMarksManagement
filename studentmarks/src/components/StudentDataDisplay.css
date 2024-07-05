@@ -1,31 +1,4 @@
-
-/* Add margin between Edit and Delete buttons */
-.edit-button,
-.delete-button {
-  margin-right: 10px; /* Add margin to space them out */
-}
-
-/* Make the Back Home button fixed at the bottom left */
-.back-home-button {
-  position: relative;
-  bottom: 10px;
-  left: 10px;
-  padding: 12px 24px;
-  font-size: 16px;
-  background-color: #007bff;
-  color: #ffffff;
-  border: none;
-  border-radius: 4px;
-  cursor: pointer;
-  transition: background-color 0.3s ease, transform 0.3s ease;
-}
-
-.back-home-button:hover {
-  background-color: #0056b3;
-  transform: translateY(-2px);
-}
-
-/* Global Styles */
+/* General Styles */
 * {
   box-sizing: border-box;
   margin: 0;
@@ -68,20 +41,39 @@ p {
   background-color: #ffffff;
 }
 
-.delete-message {
+/* Search Container */
+.search-container {
   display: flex;
   align-items: center;
-  justify-content: center;
-  margin-top: 20px;
-  color: green;
-  font-size: 18px;
+  margin-bottom: 20px;
 }
 
-.delete-message span {
-  font-size: 24px;
+.search-bar {
+  flex: 1;
+  padding: 10px;
+  border: 1px solid #ced4da;
+  border-radius: 4px;
   margin-right: 10px;
 }
 
+.search-button {
+  padding: 10px 20px;
+  font-size: 16px;
+  background-color: #007bff;
+  color: white;
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
+  margin-top: 3px;
+  transition: background-color 0.3s ease, transform 0.3s ease;
+}
+
+.search-button:hover {
+  background-color: #0056b3;
+  transform: translateY(-2px);
+}
+
+/* Card Container */
 .card-container {
   display: grid;
   grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
@@ -120,6 +112,7 @@ p {
   color: #555555;
 }
 
+/* Marks Table */
 .marks-table {
   margin-top: 10px;
 }
@@ -144,6 +137,7 @@ p {
   text-align: left;
 }
 
+/* Button Styles */
 button {
   padding: 12px 24px;
   font-size: 16px;
@@ -176,6 +170,7 @@ button:hover {
   border-radius: 4px;
   cursor: pointer;
   transition: background-color 0.3s ease, transform 0.3s ease;
+  margin-right: 10px; /* Add margin to space them out */
 }
 
 .edit-button {
@@ -198,6 +193,26 @@ button:hover {
   transform: translateY(-2px);
 }
 
+/* Back Home Button */
+.back-home-button {
+  position: relative;
+  bottom: 10px;
+  left: 10px;
+  padding: 12px 24px;
+  font-size: 16px;
+  background-color: #007bff;
+  color: #ffffff;
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
+  transition: background-color 0.3s ease, transform 0.3s ease;
+}
+
+.back-home-button:hover {
+  background-color: #0056b3;
+  transform: translateY(-2px);
+}
+
 /* Popup Container */
 .popup-container {
   position: fixed;
@@ -211,7 +226,6 @@ button:hover {
   background-color: rgba(0, 0, 0, 0.5);
   z-index: 9999;
   opacity: 0;
-  
   visibility: hidden;
   transition: opacity 0.3s ease, visibility 0.3s ease;
 }
@@ -229,7 +243,7 @@ button:hover {
   text-align: center;
   max-width: 600px;
   width: 100%;
-  color:white;
+  color: white;
   max-height: 80vh; /* Set max height for the popup */
   overflow-y: auto; /* Make the content inside scrollable */
 }
@@ -237,7 +251,7 @@ button:hover {
 .popup h2 {
   margin-bottom: 20px;
   font-size: 20px;
-  color:red;
+  color: red;
 }
 
 .popup button {
@@ -253,38 +267,6 @@ button:hover {
 
 .cancel-button:hover {
   background-color: #5a6268;
-  transform: translateY(-2px);
-}
-
-/* Search Container */
-.search-container {
-  display: flex;
-  align-items: center;
-  margin-bottom: 20px;
-}
-
-.search-bar {
-  flex: 1;
-  padding: 10px;
-  border: 1px solid #ced4da;
-  border-radius: 4px;
-  margin-right: 10px;
-}
-
-.search-button {
-  padding: 10px 20px;
-  font-size: 16px;
-  background-color: #007bff;
-  color: white;
-  border: none;
-  border-radius: 4px;
-  cursor: pointer;
-  margin-top: 3px;
-  transition: background-color 0.3s ease, transform 0.3s ease;
-}
-
-.search-button:hover {
-  background-color: #0056b3;
   transform: translateY(-2px);
 }
 
@@ -308,8 +290,8 @@ button:hover {
   border-radius: 4px;
 }
 
-/* Styles for delete message */
-.delete-message {
+/* Styles for delete and update messages */
+.delete-message, .update-message {
   background-color: #dff0d8;
   color: #3c763d;
   padding: 10px;
@@ -317,10 +299,12 @@ button:hover {
   border-radius: 4px;
   display: flex;
   align-items: center;
+  justify-content: center;
   margin-top: 10px;
+  font-size: 18px;
 }
 
-.delete-message span {
+.delete-message span, .update-message span {
   font-size: 20px;
   margin-right: 5px;
 }

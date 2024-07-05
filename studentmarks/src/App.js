@@ -4,7 +4,7 @@ import Home from './components/home';
 import EnterData from './components/EnterData';
 import StudentDataDisplay from './components/StudentDataDisplay';
 
-import EditStudent from './components/EditStudent';
+
 
 function App() {
   return (
@@ -14,7 +14,7 @@ function App() {
         <Route path="/enter-data" element={<EnterData />} />
         <Route path="/get-data" element={<StudentDataDisplay />} />
          
-        <Route path="/edit/:id" element={<EditStudent />} />
+       
         
       </Routes>
     </BrowserRouter>

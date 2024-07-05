@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState,useEffect } from 'react';
 import { Link } from 'react-router-dom';
 import axios from 'axios';
 import './StudentDataDisplay.css';
@@ -13,13 +13,26 @@ const StudentDataDisplay = () => {
   const [deleteMessage, setDeleteMessage] = useState('');
   const [editPopupVisible, setEditPopupVisible] = useState(false);
   const [studentToEdit, setStudentToEdit] = useState(null);
+  const [updateMessage, setUpdateMessage] = useState('');
+
+  // Encryption function
+  const encryptSecret = (secret) => {
+    const encrypted = secret.split('').map(char => String.fromCharCode(char.charCodeAt(0) + 1)).join('');
+    return encrypted;
+  };
+
+  // Decryption function
+  const decryptSecret = (encryptedSecret) => {
+    const decrypted = encryptedSecret.split('').map(char => String.fromCharCode(char.charCodeAt(0) - 1)).join('');
+    return decrypted;
+  };
 
   useEffect(() => {
     fetchStudentData();
   }, []);
 
   const fetchStudentData = () => {
-    axios.get('http://localhost:4000/students')
+    axios.get('https://student-marks-management-three.vercel.app/students')
       .then(response => {
         const students = response.data.data;
         setStudentData(students);
@@ -36,16 +49,16 @@ const StudentDataDisplay = () => {
       return;
     }
 
-    const lowerCaseSearchValue = searchValue.toLowerCase();
+    const encryptedSearchValue = encryptSecret(searchValue.toLowerCase());
 
-    if (lowerCaseSearchValue === "sukrscollab") {
+    if (encryptedSearchValue === encryptSecret("sukrscollab")) {
       setFilteredData(studentData); // Display all student data
       return;
     }
 
     const filtered = studentData.filter(student => {
       return (
-        student.rollNo.toLowerCase() === lowerCaseSearchValue
+        student.rollNo.toLowerCase() === decryptSecret(encryptedSearchValue)
       );
     });
 
@@ -59,7 +72,7 @@ const StudentDataDisplay = () => {
   const handleDeleteStudent = () => {
     if (!studentToDelete) return;
 
-    axios.delete(`http://localhost:4000/students/${studentToDelete}`)
+    axios.delete(`https://student-marks-management-three.vercel.app/students/${studentToDelete}`)
       .then(response => {
         console.log('Student deleted successfully:', response.data.message);
         fetchStudentData(); // Refresh the student data after deletion
@@ -124,6 +137,12 @@ const StudentDataDisplay = () => {
         </div>
       )}
 
+      {updateMessage && (
+        <div className="update-message">
+          <span>&#10004;</span> {updateMessage}
+        </div>
+      )}
+
       <div className="card-container">
         {filteredData.map((student, index) => (
           <div key={index} className="card">
@@ -182,13 +201,18 @@ const StudentDataDisplay = () => {
       )}
 
       {editPopupVisible && studentToEdit && (
-        <EditStudentPopup student={studentToEdit} onClose={closeEditPopup} fetchStudentData={fetchStudentData} />
+        <EditStudentPopup 
+          student={studentToEdit} 
+          onClose={closeEditPopup} 
+          fetchStudentData={fetchStudentData} 
+          setUpdateMessage={setUpdateMessage}
+        />
       )}
     </div>
   );
 };
 
-const EditStudentPopup = ({ student, onClose, fetchStudentData }) => {
+const EditStudentPopup = ({ student, onClose, fetchStudentData, setUpdateMessage }) => {
   const [studentData, setStudentData] = useState({ ...student });
   const [error, setError] = useState('');
 
@@ -219,8 +243,10 @@ const EditStudentPopup = ({ student, onClose, fetchStudentData }) => {
         return;
       }
       // Update student data
-      await axios.put(`http://localhost:4000/students/${student._id}`, studentData);
+      await axios.put(`https://student-marks-management-three.vercel.app/students/${student._id}`, studentData);
       fetchStudentData(); // Refresh the student data after updating
+      setUpdateMessage('Student entry updated successfully!');
+      setTimeout(() => setUpdateMessage(''), 3000);
       onClose(); // Close the edit popup
     } catch (error) {
       console.error('Error updating student:', error);
