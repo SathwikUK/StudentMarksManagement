@@ -1,9 +1,66 @@
+.right-column {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: 10px;
+}
+
+/* Subject input and button alignment */
+.subject-container {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  margin-bottom: 10px;
+}
+
+.subject-marks {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  margin-bottom: 10px;
+}
+
+.subject-marks input {
+  width: 100px;
+}
+
+button.add-subject {
+  background-color: #dc3545;
+  color: #ffffff;
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
+  padding: 10px 15px;
+  font-size: 16px;
+  margin-top: 10px;
+  transition: background-color 0.3s ease;
+}
+
+button.add-subject:hover {
+  background-color: #c82333;
+}
+
+button.delete-subject {
+  background-color: #6c757d;
+  color: #ffffff;
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
+  padding: 5px 10px;
+  font-size: 14px;
+  transition: background-color 0.3s ease;
+}
+
+button.delete-subject:hover {
+  background-color: #5a6268;
+}
+
 /* Container and Layout */
 .EnterData {
   display: flex;
   justify-content: space-between;
   align-items: flex-start;
-  max-width: 1000px; /* Increase the width */
+  max-width: 800px;
   margin: 20px auto;
   padding: 20px;
   box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
@@ -129,69 +186,6 @@ p {
   background-color: #c82333;
 }
 
-/* Subject input and button alignment */
-.subject-container {
-  display: flex;
-  align-items: center;
-  gap: 10px;
-  margin-bottom: 10px;
-}
-
-.subject-marks {
-  display: flex;
-  align-items: center;
-  gap: 10px;
-  margin-bottom: 10px;
-}
-
-.subject-marks input {
-  width: 100px;
-}
-
-button.add-subject {
-  background-color: #dc3545;
-  color: #ffffff;
-  border: none;
-  border-radius: 4px;
-  cursor: pointer;
-  padding: 10px 15px;
-  font-size: 16px;
-  margin-top: 10px;
-  transition: background-color 0.3s ease;
-}
-
-button.add-subject:hover {
-  background-color: #c82333;
-}
-
-button.delete-subject {
-  background-color: #6c757d;
-  color: #ffffff;
-  border: none;
-  border-radius: 4px;
-  cursor: pointer;
-  padding: 5px 10px;
-  font-size: 14px;
-  transition: background-color 0.3s ease;
-}
-
-button.delete-subject:hover {
-  background-color: #5a6268;
-}
-
-/* Align the subjects, marks, and delete button side by side */
-.subject-marks {
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  gap: 10px;
-  width: 100%;
-}
-
-.subject-marks input {
-  flex: 1;
-}
-
 /* Back to Home Button */
 button.back-button {
   padding: 10px 20px;
@@ -201,8 +195,6 @@ button.back-button {
   border: none;
   border-radius: 4px;
   cursor: pointer;
-  width: 150px;
-  border-right: 10px;
   transition: background-color 0.3s ease;
 }
 
@@ -408,4 +400,22 @@ button.back-button:hover {
   height: 100%;
   background-color: rgba(0, 0, 0, 0.5);
   z-index: 9998;
+}
+
+/* Back to Home Button */
+button.back-button {
+  padding: 10px 20px;
+  font-size: 16px;
+  background-color: #6c757d;
+  color: #ffffff;
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
+  width:150px;
+  border-right: 10px;
+  transition: background-color 0.3s ease;
+}
+
+button.back-button:hover {
+  background-color: #5a6268;
 }
