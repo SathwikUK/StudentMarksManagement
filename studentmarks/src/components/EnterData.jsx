@@ -2,6 +2,7 @@ import React, { useState } from 'react';
 import axios from 'axios';
 import { Link } from 'react-router-dom';
 import './EnterData.css';
+import '@fortawesome/fontawesome-free/css/all.min.css';
 
 function EnterData() {
   const [studentName, setStudentName] = useState('');
@@ -209,21 +210,25 @@ function EnterData() {
       </div>
       <div className="right-column">
         <h2>Marks</h2>
-        {subjects.map((subject, index) => (
-          <div key={index} className="subject-container">
-            <label>
-              {subject}: 
-              <input
-                type="number"
-                value={marks[subject] || ''}
-                onChange={(event) => handleInputChange(event, subject)}
-                required
-              />
-              {errors.marks && (<p style={{ color: 'red' }}>{errors.marks}</p>)}
-            </label>
-            <button type="button" onClick={() => handleDeleteSubject(subject)}>Delete</button>
-          </div>
-        ))}
+        <div className="subject-marks">
+          {subjects.map((subject, index) => (
+            <div key={index} className="subject-container">
+              <label>
+                {subject}
+                <input
+                  type="number"
+                  value={marks[subject] || ''}
+                  onChange={(event) => handleInputChange(event, subject)}
+                  required
+                />
+                {errors.marks && (<p style={{ color: 'red' }}>{errors.marks}</p>)}
+              </label>
+              <button type="button" className="delete-button" onClick={() => handleDeleteSubject(subject)}>
+                <i className="fas fa-trash"></i>
+              </button>
+            </div>
+          ))}
+        </div>
         {subjects.length < 6 && (
           <div className="add-subject-container">
             <label>

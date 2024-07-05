@@ -1,65 +1,8 @@
-.right-column {
-  display: flex;
-  flex-direction: column;
-  align-items: flex-start;
-  gap: 10px;
-}
-
-/* Subject input and button alignment */
-.subject-container {
-  display: flex;
-  align-items: center;
-  gap: 10px;
-  margin-bottom: 10px;
-}
-
-.subject-marks {
-  display: flex;
-  align-items: center;
-  gap: 10px;
-  margin-bottom: 10px;
-}
-
-.subject-marks input {
-  width: 100px;
-}
-
-button.add-subject {
-  background-color: #dc3545;
-  color: #ffffff;
-  border: none;
-  border-radius: 4px;
-  cursor: pointer;
-  padding: 10px 15px;
-  font-size: 16px;
-  margin-top: 10px;
-  transition: background-color 0.3s ease;
-}
-
-button.add-subject:hover {
-  background-color: #c82333;
-}
-
-button.delete-subject {
-  background-color: #6c757d;
-  color: #ffffff;
-  border: none;
-  border-radius: 4px;
-  cursor: pointer;
-  padding: 5px 10px;
-  font-size: 14px;
-  transition: background-color 0.3s ease;
-}
-
-button.delete-subject:hover {
-  background-color: #5a6268;
-}
-
 /* Container and Layout */
 .EnterData {
   display: flex;
   justify-content: space-between;
-  align-items: flex-start;
+  align-items: center;
   max-width: 800px;
   margin: 20px auto;
   padding: 20px;
@@ -67,7 +10,7 @@ button.delete-subject:hover {
   border-radius: 8px;
   background-color: #ffffff;
   transition: box-shadow 0.3s ease;
-  margin-top: 8rem;
+  margin-top: 4rem;
 }
 
 .EnterData:hover {
@@ -151,12 +94,19 @@ p {
 }
 
 /* Right Column Styles */
+.right-column {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: 10px;
+}
+
 .right-column h2 {
-  font-size: 20px;
-  margin-top: 10px;
+  font-size: 25px;
+  margin-top: 12px;
   padding-top: 10px;
   margin-bottom: 20px;
-  color: #333333;
+  color: #0e0f0e;
 }
 
 .right-column label {
@@ -168,16 +118,6 @@ p {
   width: calc(100% - 20px);
 }
 
-.right-column button {
-  margin-top: 10px;
-  background-color: #28a745;
-  transition: background-color 0.3s ease;
-}
-
-.right-column button:hover {
-  background-color: #218838;
-}
-
 .right-column button[type="button"] {
   background-color: #dc3545;
 }
@@ -186,20 +126,52 @@ p {
   background-color: #c82333;
 }
 
-/* Back to Home Button */
-button.back-button {
-  padding: 10px 20px;
-  font-size: 16px;
-  background-color: #6c757d;
-  color: #ffffff;
-  border: none;
-  border-radius: 4px;
-  cursor: pointer;
-  transition: background-color 0.3s ease;
+.subject-container {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-top: 20px;
 }
 
-button.back-button:hover {
-  background-color: #5a6268;
+.subject-container > * {
+  margin-right: 20px; /* Space between elements */
+}
+
+.subject-container > *:last-child {
+  margin-right: 0; /* Remove margin from the last element */
+}
+
+
+.subject-marks input {
+  width: 100px;
+  gap: 3rem;
+}
+
+.add-subject-container {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  margin-bottom: 10px;
+  width: 100%;
+}
+
+.add-subject-container label {
+  flex-grow: 1;
+}
+
+.delete-button {
+  background: none;
+  border: none;
+  color: red;
+  cursor: pointer;
+  font-size: 16px;
+  padding: 0;
+  margin-left: 10px;
+}
+
+.delete-button i {
+  font-size: 18px;
+  margin-top: 0px;
 }
 
 /* Media Queries for Responsive Design */
@@ -387,7 +359,7 @@ button.back-button:hover {
   z-index: 9999;
 }
 
-.spinner .lds-roller {
+.spinner.lds-roller {
   margin: 0 auto;
 }
 
@@ -402,20 +374,8 @@ button.back-button:hover {
   z-index: 9998;
 }
 
-/* Back to Home Button */
-button.back-button {
-  padding: 10px 20px;
-  font-size: 16px;
-  background-color: #6c757d;
-  color: #ffffff;
-  border: none;
-  border-radius: 4px;
-  cursor: pointer;
-  width:150px;
-  border-right: 10px;
-  transition: background-color 0.3s ease;
-}
-
-button.back-button:hover {
-  background-color: #5a6268;
+.back-button {
+  position: absolute;
+  top: 20px;
+  left: 20px;
 }
