@@ -135,12 +135,21 @@ function EnterData() {
   };
 
   const handleAddSubject = () => {
-    if (newSubject && !isNaN(newSubject)) {
+    const trimmedSubject = newSubject.trim();
+    if (!trimmedSubject) {
+      setErrors({ ...errors, newSubject: 'Subject name is required.' });
+    } else if (/^\d+$/.test(trimmedSubject)) {
       setErrors({ ...errors, newSubject: 'Subject name cannot be a number.' });
-    } else if (newSubject && subjects.includes(newSubject)) {
+      setShowFieldErrors(true);
+      setTimeout(() => {
+        setShowFieldErrors(false);
+      }, 2000);
+    } else if (subjects.includes(trimmedSubject)) {
       setErrors({ ...errors, newSubject: 'Duplicate subject name.' });
-    } else if (newSubject && subjects.length < 6) {
-      setSubjects([...subjects, newSubject]);
+    } else if (subjects.length >= 6) {
+      setErrors({ ...errors, subjects: 'Cannot add more than 6 subjects.' });
+    } else {
+      setSubjects([...subjects, trimmedSubject]);
       setNewSubject('');
       setErrors({ ...errors, newSubject: '' });
     }
