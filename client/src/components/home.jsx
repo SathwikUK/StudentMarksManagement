@@ -10,8 +10,8 @@ function Home() {
           <button>Enter data</button>
         </Link>
         <Link to="/get-data">
-        
-        <button>Get data</button>
+
+          <button>Get data</button>
         </Link>
       </div>
     </div>

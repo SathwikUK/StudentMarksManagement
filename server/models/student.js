@@ -1,4 +1,3 @@
-
 const mongoose = require("mongoose");
 
 const studentSchema = new mongoose.Schema({
@@ -9,7 +8,7 @@ const studentSchema = new mongoose.Schema({
   rollNo: {
     type: String,
     required: true,
-    unique:true
+    unique: true,
   },
   branch: {
     type: String,

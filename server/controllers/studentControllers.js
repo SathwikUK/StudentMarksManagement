@@ -4,11 +4,12 @@ const Student = require("../models/student");
 const addStudent = async (req, res) => {
   try {
     const { name, rollNo, branch, marks } = req.body;
-
     // Check if rollNo already exists
     const existingStudent = await Student.findOne({ rollNo });
     if (existingStudent) {
-      return res.status(400).json({ message: "Student with this roll number already exists." });
+      return res
+        .status(400)
+        .json({ message: "Student with this roll number already exists." });
     }
 
     // Create and save the new student
@@ -16,13 +17,16 @@ const addStudent = async (req, res) => {
       name,
       rollNo,
       branch,
-      marks
+      marks,
     });
     await newStudent.save();
-    res.status(201).json({ message: "Student added successfully", data: newStudent });
+    return res
+      .status(201)
+      .json({ message: "Student added successfully", data: newStudent });
   } catch (err) {
-    console.error("Error adding student:", err);
-    res.status(500).json({ message: "Error adding student", error: err.message });
+    return res
+      .status(500)
+      .json({ message: "Error adding student", error: err.message });
   }
 };
 
@@ -30,10 +34,13 @@ const addStudent = async (req, res) => {
 const getStudents = async (req, res) => {
   try {
     const students = await Student.find();
-    res.status(200).json({ message: "Students retrieved successfully", data: students });
+    res
+      .status(200)
+      .json({ message: "Students retrieved successfully", data: students });
   } catch (err) {
-    console.error("Error retrieving students:", err);
-    res.status(500).json({ message: "Error retrieving students", error: err.message });
+    res
+      .status(500)
+      .json({ message: "Error retrieving students", error: err.message });
   }
 };
 
@@ -45,21 +52,24 @@ const getStudentByRollNo = async (req, res) => {
     if (!student) {
       return res.status(404).json({ message: "Student not found" });
     }
-    res.status(200).json({ message: "Student retrieved successfully", data: student });
+    res
+      .status(200)
+      .json({ message: "Student retrieved successfully", data: student });
   } catch (err) {
-    console.error("Error retrieving student:", err);
-    res.status(500).json({ message: "Error retrieving student", error: err.message });
+    res
+      .status(500)
+      .json({ message: "Error retrieving student", error: err.message });
   }
 };
 
 // Update a student by roll number
 const updateStudent = async (req, res) => {
-  const { rollNo } = req.params;
+  const { studentId } = req.params;
   const { name, branch, marks } = req.body;
 
   try {
     const updatedStudent = await Student.findOneAndUpdate(
-      { rollNo },
+      { id: studentId },
       { name, branch, marks },
       { new: true }
     );
@@ -68,25 +78,32 @@ const updateStudent = async (req, res) => {
       return res.status(404).json({ message: "Student not found" });
     }
 
-    res.status(200).json({ message: "Student updated successfully", data: updatedStudent });
+    res
+      .status(200)
+      .json({ message: "Student updated successfully", data: updatedStudent });
   } catch (err) {
-    console.error("Error updating student:", err);
-    res.status(500).json({ message: "Error updating student", error: err.message });
+    res
+      .status(500)
+      .json({ message: "Error updating student", error: err.message });
   }
 };
 
 // Delete a student by roll number
 const deleteStudent = async (req, res) => {
   try {
-    const { rollNo } = req.params;
-    const deletedStudent = await Student.findOneAndDelete({ rollNo });
-    if (!deletedStudent) {
-      return res.status(404).json({ message: "Student not found" });
+    const { studentId } = req.params;
+    const student = await Student.findById(studentId);
+    if (!student) {
+      return res.status(404).json({ message: "Student details not found" });
     }
-    res.status(200).json({ message: "Student deleted successfully" });
+    const response = await Student.findByIdAndDelete(studentId);
+    return res
+      .status(200)
+      .json({ message: `Student ${response.name} deleted!` });
   } catch (err) {
-    console.error("Error deleting student:", err);
-    res.status(500).json({ message: "Error deleting student", error: err.message });
+    res
+      .status(500)
+      .json({ message: "Error deleting student", error: err.message });
   }
 };
 

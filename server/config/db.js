@@ -1,17 +1,11 @@
 const mongoose = require("mongoose");
 
-const encodedPassword = encodeURIComponent('Sath@projects123');
-const dbURI = `mongodb+srv://SathwikUK:${encodedPassword}@projects.7zbjzgv.mongodb.net/projects?retryWrites=true&w=majority`;
-
 const connectDB = async () => {
   try {
-    await mongoose.connect(dbURI, {
-      useNewUrlParser: true,
-      useUnifiedTopology: true,
-    });
+    await mongoose.connect(process.env.MONGODB_URI);
     console.log("Connected to MongoDB");
   } catch (err) {
-    console.error("NOT CONNECTED TO NETWORK", err);
+    console.error("Unable to connect with database!", err);
     process.exit(1);
   }
 };

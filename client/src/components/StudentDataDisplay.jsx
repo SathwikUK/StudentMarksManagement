@@ -1,6 +1,6 @@
-import React, { useState,useEffect } from 'react';
+import React, { useState, useEffect } from 'react';
 import { Link } from 'react-router-dom';
-import axios from 'axios';
+import axios from '../api/axios';
 import './StudentDataDisplay.css';
 
 const StudentDataDisplay = () => {
@@ -32,7 +32,7 @@ const StudentDataDisplay = () => {
   }, []);
 
   const fetchStudentData = () => {
-    axios.get('https://student-marks-management-seven.vercel.app/students')
+    axios.get('/students')
       .then(response => {
         const students = response.data.data;
         setStudentData(students);
@@ -72,7 +72,7 @@ const StudentDataDisplay = () => {
   const handleDeleteStudent = () => {
     if (!studentToDelete) return;
 
-    axios.delete(`https://student-marks-management-seven.vercel.app/students/${studentToDelete}`)
+    axios.delete(`/students/${studentToDelete}`)
       .then(response => {
         console.log('Student deleted successfully:', response.data.message);
         fetchStudentData(); // Refresh the student data after deletion
@@ -121,12 +121,12 @@ const StudentDataDisplay = () => {
       <h1 align="center">Student Data Display</h1>
 
       <div className="search-container">
-        <input 
-          type="text" 
-          className="search-bar" 
-          placeholder="Search by Roll No..." 
-          value={searchValue} 
-          onChange={handleSearchChange} 
+        <input
+          type="text"
+          className="search-bar"
+          placeholder="Search by Roll No..."
+          value={searchValue}
+          onChange={handleSearchChange}
         />
         <button className="search-button" onClick={handleSearch}>Search</button>
       </div>
@@ -201,10 +201,10 @@ const StudentDataDisplay = () => {
       )}
 
       {editPopupVisible && studentToEdit && (
-        <EditStudentPopup 
-          student={studentToEdit} 
-          onClose={closeEditPopup} 
-          fetchStudentData={fetchStudentData} 
+        <EditStudentPopup
+          student={studentToEdit}
+          onClose={closeEditPopup}
+          fetchStudentData={fetchStudentData}
           setUpdateMessage={setUpdateMessage}
         />
       )}
@@ -243,7 +243,7 @@ const EditStudentPopup = ({ student, onClose, fetchStudentData, setUpdateMessage
         return;
       }
       // Update student data
-      await axios.put(`https://student-marks-management-seven.vercel.app/students/${student._id}`, studentData);
+      await axios.put(`/students/${student._id}`, studentData);
       fetchStudentData(); // Refresh the student data after updating
       setUpdateMessage('Student entry updated successfully!');
       setTimeout(() => setUpdateMessage(''), 3000);

@@ -12,7 +12,12 @@ body {
   background-color: #f9f9f9;
 }
 
-h1, h2, h3, h4, h5, h6 {
+h1,
+h2,
+h3,
+h4,
+h5,
+h6 {
   font-weight: bold;
   color: #333;
   margin-bottom: 10px;
@@ -25,7 +30,7 @@ p {
 /* Container and Layout */
 .StudentDataDisplay {
   max-width: 800px;
-  min-height: 600px;  /* Set minimum height */
+  min-height: 600px; /* Set minimum height */
   margin: 20px auto;
   padding: 20px;
   box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
@@ -88,7 +93,8 @@ p {
   border: 1px solid #ced4da;
   border-radius: 8px;
   background-color: #ffffff;
-  transition: box-shadow 0.3s ease, background-color 0.3s ease, border-color 0.3s ease;
+  transition: box-shadow 0.3s ease, background-color 0.3s ease,
+    border-color 0.3s ease;
 }
 
 .card:hover {
@@ -291,7 +297,8 @@ button:hover {
 }
 
 /* Styles for delete and update messages */
-.delete-message, .update-message {
+.delete-message,
+.update-message {
   background-color: #dff0d8;
   color: #3c763d;
   padding: 10px;
@@ -304,7 +311,8 @@ button:hover {
   font-size: 18px;
 }
 
-.delete-message span, .update-message span {
+.delete-message span,
+.update-message span {
   font-size: 20px;
   margin-right: 5px;
 }

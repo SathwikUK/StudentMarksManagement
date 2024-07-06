@@ -11,7 +11,7 @@ const {
 router.post("/students", addStudent);
 router.get("/students", getStudents);
 router.get("/students/:rollNo", getStudentByRollNo);
-router.put("/students/:rollNo", updateStudent);
-router.delete("/students/:rollNo", deleteStudent);
+router.put("/students/:studentId", updateStudent);
+router.delete("/students/:studentId", deleteStudent);
 
 module.exports = router;

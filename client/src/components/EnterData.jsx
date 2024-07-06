@@ -1,9 +1,9 @@
 import React, { useState } from 'react';
-import axios from 'axios';
+import axios from '../api/axios';
 import { Link } from 'react-router-dom';
 import './EnterData.css';
 import '@fortawesome/fontawesome-free/css/all.min.css';
-
+import { Trash2 } from "lucide-react"
 function EnterData() {
   const [studentName, setStudentName] = useState('');
   const [rollNo, setRollNo] = useState('');
@@ -51,7 +51,7 @@ function EnterData() {
 
   const checkDuplicateRollNo = async (rollNo) => {
     try {
-      const response = await axios.get(`https://github.com/SathwikUK/StudentMarksManagement/students/${rollNo}`);
+      const response = await axios.get(`/students/${rollNo}`);
       return response.data.exists;
     } catch (error) {
       console.error('Error checking duplicate roll number:', error);
@@ -60,64 +60,64 @@ function EnterData() {
   };
 
   const handleSubmit = async (event) => {
-  event.preventDefault();
+    event.preventDefault();
 
-  const validationErrors = validateFields();
-  if (Object.keys(validationErrors).length === 0) {
-    setLoading(true);
-    const isDuplicate = await checkDuplicateRollNo(rollNo);
-    if (isDuplicate) {
-      setLoading(false);
-      setShowPopup(true);
-      setPopupMessage('Error: User already exists.');
-      setPopupColor('error');
-      setTimeout(() => {
-        setShowPopup(false);
-        setPopupMessage('');
-        setPopupColor('');
-      }, 3000);
-    } else {
-      axios.post('https://github.com/SathwikUK/StudentMarksManagement/students', {
-        name: studentName,
-        rollNo,
-        branch,
-        marks: subjects.map(subject => ({ subject, marks: marks[subject] || 0 }))
-      })
-      .then(() => {
+    const validationErrors = validateFields();
+    if (Object.keys(validationErrors).length === 0) {
+      setLoading(true);
+      const isDuplicate = await checkDuplicateRollNo(rollNo);
+      if (isDuplicate) {
         setLoading(false);
         setShowPopup(true);
-        setPopupMessage('Student added successfully!');
-        setPopupColor('success');
-        setTimeout(() => {
-          setShowPopup(false);
-          setPopupMessage('');
-          setPopupColor('');
-          resetForm();
-        }, 3000);
-      })
-      .catch(error => {
-        setLoading(false);
-        setShowPopup(true);
-        if (error.response && error.response.status === 400) {
-          setPopupMessage('Error: User already exists.');
-        } else {
-          setPopupMessage(`Error: ${error.message}`);
-        }
+        setPopupMessage('Error: User already exists.');
         setPopupColor('error');
         setTimeout(() => {
           setShowPopup(false);
           setPopupMessage('');
           setPopupColor('');
         }, 3000);
-      });
+      } else {
+        axios.post('/students', {
+          name: studentName,
+          rollNo,
+          branch,
+          marks: subjects.map(subject => ({ subject, marks: marks[subject] || 0 }))
+        })
+          .then(() => {
+            setLoading(false);
+            setShowPopup(true);
+            setPopupMessage('Student added successfully!');
+            setPopupColor('success');
+            setTimeout(() => {
+              setShowPopup(false);
+              setPopupMessage('');
+              setPopupColor('');
+              resetForm();
+            }, 3000);
+          })
+          .catch(error => {
+            setLoading(false);
+            setShowPopup(true);
+            if (error.response && error.response.status === 400) {
+              setPopupMessage('Error: User already exists.');
+            } else {
+              setPopupMessage(`Error: ${error.message}`);
+            }
+            setPopupColor('error');
+            setTimeout(() => {
+              setShowPopup(false);
+              setPopupMessage('');
+              setPopupColor('');
+            }, 3000);
+          });
+      }
+    } else {
+      setShowFieldErrors(true);
+      setTimeout(() => {
+        setShowFieldErrors(false);
+      }, 2000);
     }
-  } else {
-    setShowFieldErrors(true);
-    setTimeout(() => {
-      setShowFieldErrors(false);
-    }, 2000);
-  }
-};
+  };
 
   const resetForm = () => {
     setStudentName('');
@@ -199,10 +199,11 @@ function EnterData() {
         <h1>Enter Student Data</h1>
         <form onSubmit={handleSubmit}>
           <label>
-            Student Name:<span style={{ color: 'red' }}>*</span>
+            Student Name <span style={{ color: 'red' }}>*</span>
             <input
               type="text"
               value={studentName}
+              placeholder='Enter student name'
               onChange={(event) => handleFieldChange(setStudentName, 'studentName', event.target.value)}
               required
             />
@@ -210,10 +211,11 @@ function EnterData() {
           </label>
           <br />
           <label>
-            Roll No:<span style={{ color: 'red' }}>*</span>
+            Roll No<span style={{ color: 'red' }}>*</span>
             <input
               type="text"
               value={rollNo}
+              placeholder='Enter student roll number'
               onChange={(event) => handleFieldChange(setRollNo, 'rollNo', event.target.value)}
               required
             />
@@ -221,7 +223,7 @@ function EnterData() {
           </label>
           <br />
           <label>
-            Branch:<span style={{ color: 'red' }}>*</span>
+            Branch<span style={{ color: 'red' }}>*</span>
             <select
               value={branch}
               onChange={(event) => handleFieldChange(setBranch, 'branch', event.target.value)}
@@ -255,9 +257,7 @@ function EnterData() {
                 />
                 {showFieldErrors && errors[`marks_${index}`] && (<p style={{ color: 'red' }}>{errors[`marks_${index}`]}</p>)}
               </div>
-              <button type="button" className="delete-subject" onClick={() => handleDeleteSubject(subject)}>
-                <i className="fas fa-trash-alt"></i>
-              </button>
+              <Trash2 className='delete-subject' size={25} onClick={() => handleDeleteSubject(subject)} />
             </div>
           ))}
         </div>
@@ -267,7 +267,7 @@ function EnterData() {
               type="text"
               value={newSubject}
               onChange={(event) => handleFieldChange(setNewSubject, 'newSubject', event.target.value)}
-              placeholder="New Subject"
+              placeholder="Enter subject Name"
             />
             <button type="button" onClick={handleAddSubject}>Add Subject</button>
             {showFieldErrors && errors.newSubject && (<p style={{ color: 'red' }}>{errors.newSubject}</p>)}
