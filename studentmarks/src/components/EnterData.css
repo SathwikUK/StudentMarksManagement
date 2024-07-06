@@ -125,53 +125,48 @@ p {
 .right-column button[type="button"]:hover {
   background-color: #c82333;
 }
+.subject-marks {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
 
 .subject-container {
   display: flex;
-  justify-content: space-between;
-  align-items: center;
-  margin-top: 20px;
-}
-
-.subject-container > * {
-  margin-right: 20px; /* Space between elements */
-}
-
-.subject-container > *:last-child {
-  margin-right: 0; /* Remove margin from the last element */
-}
-
-
-.subject-marks input {
-  width: 100px;
-  gap: 3rem;
-}
-
-.add-subject-container {
-  display: flex;
   align-items: center;
   gap: 10px;
-  margin-bottom: 10px;
-  width: 100%;
 }
 
-.add-subject-container label {
-  flex-grow: 1;
+.subject-name {
+  flex: 1;
 }
 
-.delete-button {
-  background: none;
-  border: none;
-  color: red;
-  cursor: pointer;
-  font-size: 16px;
-  padding: 0;
-  margin-left: 10px;
+.subject-marks-input {
+  flex: 1;
 }
 
-.delete-button i {
-  font-size: 18px;
-  margin-top: 0px;
+.delete-subject { /* Red border color */
+  border-radius: 30%; /* Circular border */
+  background-color: white; /* White background for the button */
+  color: #4e4848; /* Red color for the trash icon */
+  font-size: 18px; /* Adjust font size as needed */
+  width: 30px; /* Width of the circular button */
+  height: 30px; /* Height of the circular button */
+  display: flex; /* Flexbox to center icon */
+  align-items: center; /* Center icon vertically */
+  justify-content: center; /* Center icon horizontally */
+  cursor: pointer; /* Pointer cursor on hover */
+  transition: background-color 0.3s ease, color 0.3s ease, border-color 0.3s ease; /* Smooth transition effects */
+}
+
+.delete-subject:hover {
+  background-color: #7e7777; /* Red background on hover */
+  color: white; /* White color for the trash icon on hover */
+  border-color: #5e5555; /* Red border on hover */
+}
+
+.delete-subject i {
+  margin: 0; /* Remove default margin from icon */
 }
 
 /* Media Queries for Responsive Design */

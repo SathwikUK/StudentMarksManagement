@@ -22,8 +22,8 @@ function EnterData() {
 
   const validateFields = () => {
     const newErrors = {};
-    if (!studentName) {
-      newErrors.studentName = 'This field is required.';
+    if (!studentName || studentName.length < 6) {
+      newErrors.studentName = 'This field is required and must be at least 6 characters.';
     }
     if (!rollNo || rollNo.length !== 10) {
       newErrors.rollNo = 'This field is required and must be exactly 10 digits.';
@@ -40,6 +40,8 @@ function EnterData() {
         }
         if (!marks[subject] && marks[subject] !== 0) {
           newErrors[`marks_${index}`] = 'This field is required.';
+        } else if (marks[subject] < 0 || marks[subject] > 100) {
+          newErrors[`marks_${index}`] = 'Marks must be between 0 and 100.';
         }
       });
     }
@@ -49,7 +51,7 @@ function EnterData() {
 
   const checkDuplicateRollNo = async (rollNo) => {
     try {
-      const response = await axios.get(`https://student-marks-management-three.vercel.app/students/checkduplicate/${rollNo}`);
+      const response = await axios.get(`http://localhost:4000/students/${rollNo}`);
       return response.data.exists;
     } catch (error) {
       console.error('Error checking duplicate roll number:', error);
@@ -59,6 +61,7 @@ function EnterData() {
 
   const handleSubmit = async (event) => {
     event.preventDefault();
+  
     const validationErrors = validateFields();
     if (Object.keys(validationErrors).length === 0) {
       setLoading(true);
@@ -66,7 +69,7 @@ function EnterData() {
       if (isDuplicate) {
         setLoading(false);
         setShowPopup(true);
-        setPopupMessage('Error: Roll number already exists.');
+        setPopupMessage('Error: User already exists.');
         setPopupColor('error');
         setTimeout(() => {
           setShowPopup(false);
@@ -74,7 +77,7 @@ function EnterData() {
           setPopupColor('');
         }, 3000);
       } else {
-        axios.post('https://student-marks-management-three.vercel.app/students', {
+        axios.post('http://localhost:4000/students', {
           name: studentName,
           rollNo,
           branch,
@@ -95,7 +98,11 @@ function EnterData() {
         .catch(error => {
           setLoading(false);
           setShowPopup(true);
-          setPopupMessage(`Error: ${error.message}`);
+          if (error.response && error.response.status === 400) {
+            setPopupMessage('Error: User already exists.');
+          } else {
+            setPopupMessage(`Error: ${error.message}`);
+          }
           setPopupColor('error');
           setTimeout(() => {
             setShowPopup(false);
@@ -111,7 +118,7 @@ function EnterData() {
       }, 2000);
     }
   };
-
+  
   const resetForm = () => {
     setStudentName('');
     setRollNo('');
@@ -168,6 +175,8 @@ function EnterData() {
     const newErrors = { ...errors };
     if (Number(value) >= 0 && Number(value) <= 100) {
       delete newErrors.marks;
+    } else {
+      newErrors.marks = 'Marks must be between 0 and 100.';
     }
     setErrors(newErrors);
   };
@@ -234,8 +243,10 @@ function EnterData() {
         <div className="subject-marks">
           {subjects.map((subject, index) => (
             <div key={index} className="subject-container">
-              <label>
+              <div className="subject-name">
                 {subject}
+              </div>
+              <div className="subject-marks-input">
                 <input
                   type="number"
                   value={marks[subject] || ''}
@@ -243,32 +254,29 @@ function EnterData() {
                   required
                 />
                 {showFieldErrors && errors[`marks_${index}`] && (<p style={{ color: 'red' }}>{errors[`marks_${index}`]}</p>)}
-              </label>
-              <button type="button" className="delete-button" onClick={() => handleDeleteSubject(subject)}>
-                <i className="fas fa-trash"></i>
+              </div>
+              <button type="button" className="delete-subject" onClick={() => handleDeleteSubject(subject)}>
+                <i className="fas fa-trash-alt"></i>
               </button>
             </div>
           ))}
         </div>
         {subjects.length < 6 && (
-          <div className="add-subject-container">
-            <label>
-              Add new subject:<span style={{ color: 'red' }}>*</span>
-              <input
-                type="text"
-                value={newSubject}
-                onChange={(event) => handleFieldChange(setNewSubject, 'newSubject', event.target.value)}
-                required
-              />
-              {showFieldErrors && errors.newSubject && (<p style={{ color: 'red' }}>{errors.newSubject}</p>)}
-            </label>
+          <div className="new-subject">
+            <input
+              type="text"
+              value={newSubject}
+              onChange={(event) => handleFieldChange(setNewSubject, 'newSubject', event.target.value)}
+              placeholder="New Subject"
+            />
             <button type="button" onClick={handleAddSubject}>Add Subject</button>
+            {showFieldErrors && errors.newSubject && (<p style={{ color: 'red' }}>{errors.newSubject}</p>)}
           </div>
         )}
         {showFieldErrors && errors.subjects && (<p style={{ color: 'red' }}>{errors.subjects}</p>)}
       </div>
-      <Link to="/">
-        <button className="back-button">Back to Home</button>
+      <Link to="/" className="back-button">
+        <button>Back to Home</button>
       </Link>
     </div>
   );

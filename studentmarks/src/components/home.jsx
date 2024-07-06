@@ -4,7 +4,7 @@ import './home.css'
 function Home() {
   return (
     <div className="Home">
-      <h1>Welcome to Our Data Site</h1>
+      <h1>Welcome to Our Marks Management</h1>
       <div className="buttons">
         <Link to="/enter-data">
           <button>Enter data</button>
