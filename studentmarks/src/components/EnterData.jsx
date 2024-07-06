@@ -60,65 +60,65 @@ function EnterData() {
   };
 
   const handleSubmit = async (event) => {
-    event.preventDefault();
-  
-    const validationErrors = validateFields();
-    if (Object.keys(validationErrors).length === 0) {
-      setLoading(true);
-      const isDuplicate = await checkDuplicateRollNo(rollNo);
-      if (isDuplicate) {
+  event.preventDefault();
+
+  const validationErrors = validateFields();
+  if (Object.keys(validationErrors).length === 0) {
+    setLoading(true);
+    const isDuplicate = await checkDuplicateRollNo(rollNo);
+    if (isDuplicate) {
+      setLoading(false);
+      setShowPopup(true);
+      setPopupMessage('Error: User already exists.');
+      setPopupColor('error');
+      setTimeout(() => {
+        setShowPopup(false);
+        setPopupMessage('');
+        setPopupColor('');
+      }, 3000);
+    } else {
+      axios.post('http://localhost:4000/students', {
+        name: studentName,
+        rollNo,
+        branch,
+        marks: subjects.map(subject => ({ subject, marks: marks[subject] || 0 }))
+      })
+      .then(() => {
         setLoading(false);
         setShowPopup(true);
-        setPopupMessage('Error: User already exists.');
+        setPopupMessage('Student added successfully!');
+        setPopupColor('success');
+        setTimeout(() => {
+          setShowPopup(false);
+          setPopupMessage('');
+          setPopupColor('');
+          resetForm();
+        }, 3000);
+      })
+      .catch(error => {
+        setLoading(false);
+        setShowPopup(true);
+        if (error.response && error.response.status === 400) {
+          setPopupMessage('Error: User already exists.');
+        } else {
+          setPopupMessage(`Error: ${error.message}`);
+        }
         setPopupColor('error');
         setTimeout(() => {
           setShowPopup(false);
           setPopupMessage('');
           setPopupColor('');
         }, 3000);
-      } else {
-        axios.post('http://localhost:4000/students', {
-          name: studentName,
-          rollNo,
-          branch,
-          marks: subjects.map(subject => ({ subject, marks: marks[subject] || 0 }))
-        })
-        .then(() => {
-          setLoading(false);
-          setShowPopup(true);
-          setPopupMessage('Student added successfully!');
-          setPopupColor('success');
-          setTimeout(() => {
-            setShowPopup(false);
-            setPopupMessage('');
-            setPopupColor('');
-            resetForm();
-          }, 3000);
-        })
-        .catch(error => {
-          setLoading(false);
-          setShowPopup(true);
-          if (error.response && error.response.status === 400) {
-            setPopupMessage('Error: User already exists.');
-          } else {
-            setPopupMessage(`Error: ${error.message}`);
-          }
-          setPopupColor('error');
-          setTimeout(() => {
-            setShowPopup(false);
-            setPopupMessage('');
-            setPopupColor('');
-          }, 3000);
-        });
-      }
-    } else {
-      setShowFieldErrors(true);
-      setTimeout(() => {
-        setShowFieldErrors(false);
-      }, 2000);
+      });
     }
-  };
-  
+  } else {
+    setShowFieldErrors(true);
+    setTimeout(() => {
+      setShowFieldErrors(false);
+    }, 2000);
+  }
+};
+
   const resetForm = () => {
     setStudentName('');
     setRollNo('');

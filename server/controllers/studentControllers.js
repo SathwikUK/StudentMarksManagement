@@ -1,8 +1,17 @@
 const Student = require("../models/student");
 
+// Add a new student
 const addStudent = async (req, res) => {
   try {
     const { name, rollNo, branch, marks } = req.body;
+
+    // Check if rollNo already exists
+    const existingStudent = await Student.findOne({ rollNo });
+    if (existingStudent) {
+      return res.status(400).json({ message: "Student with this roll number already exists." });
+    }
+
+    // Create and save the new student
     const newStudent = new Student({
       name,
       rollNo,
@@ -17,6 +26,7 @@ const addStudent = async (req, res) => {
   }
 };
 
+// Retrieve all students
 const getStudents = async (req, res) => {
   try {
     const students = await Student.find();
@@ -27,9 +37,11 @@ const getStudents = async (req, res) => {
   }
 };
 
-const getStudentById = async (req, res) => {
+// Retrieve a student by roll number
+const getStudentByRollNo = async (req, res) => {
   try {
-    const student = await Student.findById(req.params.id);
+    const { rollNo } = req.params; // Extract rollNo from request parameters
+    const student = await Student.findOne({ rollNo }).exec();
     if (!student) {
       return res.status(404).json({ message: "Student not found" });
     }
@@ -40,14 +52,15 @@ const getStudentById = async (req, res) => {
   }
 };
 
+// Update a student by roll number
 const updateStudent = async (req, res) => {
-  const { id } = req.params;
-  const { name, rollNo, branch, marks } = req.body;
+  const { rollNo } = req.params;
+  const { name, branch, marks } = req.body;
 
   try {
-    const updatedStudent = await Student.findByIdAndUpdate(
-      id,
-      { name, rollNo, branch, marks },
+    const updatedStudent = await Student.findOneAndUpdate(
+      { rollNo },
+      { name, branch, marks },
       { new: true }
     );
 
@@ -62,10 +75,14 @@ const updateStudent = async (req, res) => {
   }
 };
 
+// Delete a student by roll number
 const deleteStudent = async (req, res) => {
   try {
-    const { id } = req.params;
-    await Student.findByIdAndDelete(id);
+    const { rollNo } = req.params;
+    const deletedStudent = await Student.findOneAndDelete({ rollNo });
+    if (!deletedStudent) {
+      return res.status(404).json({ message: "Student not found" });
+    }
     res.status(200).json({ message: "Student deleted successfully" });
   } catch (err) {
     console.error("Error deleting student:", err);
@@ -76,7 +93,7 @@ const deleteStudent = async (req, res) => {
 module.exports = {
   addStudent,
   getStudents,
-  getStudentById,
+  getStudentByRollNo,
   updateStudent,
   deleteStudent,
 };
