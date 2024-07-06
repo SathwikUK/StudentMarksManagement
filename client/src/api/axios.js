@@ -1,6 +1,5 @@
 import axios from "axios";
 export default axios.create({
-  baseURL: "http://localhost:4000",
+  baseURL: "https://student-marks-management-server.vercel.app",
 });
 
-// https://student-marks-management-seven.vercel.app
