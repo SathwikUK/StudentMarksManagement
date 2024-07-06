@@ -51,7 +51,7 @@ function EnterData() {
 
   const checkDuplicateRollNo = async (rollNo) => {
     try {
-      const response = await axios.get(`http://localhost:4000/students/${rollNo}`);
+      const response = await axios.get(`https://github.com/SathwikUK/StudentMarksManagement/students/${rollNo}`);
       return response.data.exists;
     } catch (error) {
       console.error('Error checking duplicate roll number:', error);
@@ -77,7 +77,7 @@ function EnterData() {
         setPopupColor('');
       }, 3000);
     } else {
-      axios.post('http://localhost:4000/students', {
+      axios.post('https://github.com/SathwikUK/StudentMarksManagement/students', {
         name: studentName,
         rollNo,
         branch,
