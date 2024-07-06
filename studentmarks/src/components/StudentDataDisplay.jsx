@@ -32,7 +32,7 @@ const StudentDataDisplay = () => {
   }, []);
 
   const fetchStudentData = () => {
-    axios.get('http://localhost:4000/students')
+    axios.get('https://student-marks-management-seven.vercel.app/students')
       .then(response => {
         const students = response.data.data;
         setStudentData(students);
@@ -72,7 +72,7 @@ const StudentDataDisplay = () => {
   const handleDeleteStudent = () => {
     if (!studentToDelete) return;
 
-    axios.delete(`http://localhost:4000/students/${studentToDelete}`)
+    axios.delete(`https://student-marks-management-seven.vercel.app/students/${studentToDelete}`)
       .then(response => {
         console.log('Student deleted successfully:', response.data.message);
         fetchStudentData(); // Refresh the student data after deletion
@@ -243,7 +243,7 @@ const EditStudentPopup = ({ student, onClose, fetchStudentData, setUpdateMessage
         return;
       }
       // Update student data
-      await axios.put(`http://localhost:4000/students/${student._id}`, studentData);
+      await axios.put(`https://student-marks-management-seven.vercel.app/students/${student._id}`, studentData);
       fetchStudentData(); // Refresh the student data after updating
       setUpdateMessage('Student entry updated successfully!');
       setTimeout(() => setUpdateMessage(''), 3000);
