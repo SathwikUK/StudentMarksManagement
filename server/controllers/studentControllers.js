@@ -63,13 +63,14 @@ const getStudentByRollNo = async (req, res) => {
 };
 
 // Update a student by roll number
+// Update a student by student ID
 const updateStudent = async (req, res) => {
   const { studentId } = req.params;
   const { name, branch, marks } = req.body;
 
   try {
     const updatedStudent = await Student.findOneAndUpdate(
-      { id: studentId },
+      { _id: studentId }, // Use _id here
       { name, branch, marks },
       { new: true }
     );
@@ -78,13 +79,12 @@ const updateStudent = async (req, res) => {
       return res.status(404).json({ message: "Student not found" });
     }
 
-    res
-      .status(200)
-      .json({ message: "Student updated successfully", data: updatedStudent });
+    res.status(200).json({
+      message: "Student updated successfully",
+      data: updatedStudent,
+    });
   } catch (err) {
-    res
-      .status(500)
-      .json({ message: "Error updating student", error: err.message });
+    res.status(500).json({ message: "Error updating student", error: err.message });
   }
 };
 

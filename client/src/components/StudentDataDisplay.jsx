@@ -244,6 +244,7 @@ const EditStudentPopup = ({ student, onClose, fetchStudentData, setUpdateMessage
       }
       // Update student data
       await axios.put(`/students/${student._id}`, studentData);
+
       fetchStudentData(); // Refresh the student data after updating
       setUpdateMessage('Student entry updated successfully!');
       setTimeout(() => setUpdateMessage(''), 3000);
